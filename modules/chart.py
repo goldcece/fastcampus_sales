@@ -45,8 +45,7 @@ def generate_pastel_color(palette='spring', num_colors=12, brightness=0.8, max_p
 
 
 
-
-def make_chart(data, x_col, y_col, size=6, colors=0, orientation='vertical', chart_type='bar'):
+def make_chart(data, x_col, y_col, size=6, colors=0, orientation='vertical', chart_type='bar', xlabel=None, ylabel=None, title='표'):
     """
     Make a bar chart.
 
@@ -58,6 +57,9 @@ def make_chart(data, x_col, y_col, size=6, colors=0, orientation='vertical', cha
     colors (str or list): Color or list of colors for the bars (default=random_color).
     orientation (str): Orientation of the bars, 'vertical' or 'horizontal' (default='vertical').
     chart_type (str): Type of the chart, 'bar', 'barh', or 'pie' (default='bar').
+    xlabel (str): Label for the x-axis (default=x_col.capitalize()).
+    ylabel (str): Label for the y-axis (default=y_col.capitalize()).
+    title (str): Title for the chart (default='표').
 
     Returns:
     None.
@@ -88,8 +90,12 @@ def make_chart(data, x_col, y_col, size=6, colors=0, orientation='vertical', cha
         ax.pie(data[y_col], labels=data[x_col], colors=colors, autopct='%1.1f%%')
     
     if chart_type != 'pie':
-        ax.set_xlabel(x_col.capitalize())
-        ax.set_ylabel(y_col.capitalize())
+        if xlabel is None:
+            xlabel = x_col.capitalize()
+        if ylabel is None:
+            ylabel = y_col.capitalize()
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
 
         if orientation == 'horizontal':
             plt.xticks(rotation=90)
@@ -97,4 +103,5 @@ def make_chart(data, x_col, y_col, size=6, colors=0, orientation='vertical', cha
         else:
             plt.xticks(rotation=45)
     
+    plt.title(title)
     plt.show()
